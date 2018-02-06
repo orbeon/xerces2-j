@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@ import org.apache.xerces.util.URI;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
-import org.w3c.dom.ElementTraversal;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -43,9 +42,9 @@ import org.w3c.dom.TypeInfo;
  * <P>
  * ElementImpl does not support Namespaces. ElementNSImpl, which inherits from
  * it, does.
- * 
+ *
  * @xerces.internal
- * 
+ *
  * @see ElementNSImpl
  *
  * @author Arnaud  Le Hors, IBM
@@ -58,7 +57,7 @@ import org.w3c.dom.TypeInfo;
  */
 public class ElementImpl
     extends ParentNode
-    implements Element, ElementTraversal, TypeInfo {
+    implements Element, TypeInfo {
 
     //
     // Constants
@@ -187,9 +186,9 @@ public class ElementImpl
         if (needsSyncData()) {
             synchronizeData();
         }
-        // Absolute base URI is computed according to 
+        // Absolute base URI is computed according to
         // XML Base (http://www.w3.org/TR/xmlbase/#granularity)
-        // 1. The base URI specified by an xml:base attribute on the element, 
+        // 1. The base URI specified by an xml:base attribute on the element,
         // if one exists
         if (attributes != null) {
             final Attr attrNode = getXMLBaseAttribute();
@@ -202,7 +201,7 @@ public class ElementImpl
                         if (_uri.isAbsoluteURI()) {
                             return _uri.toString();
                         }
-                        
+
                         // Make any parentURI into a URI object to use with the URI(URI, String) constructor
                         String parentBaseURI = (this.ownerNode != null) ? this.ownerNode.getBaseURI() : null;
                         if (parentBaseURI != null) {
@@ -217,7 +216,7 @@ public class ElementImpl
                             }
                         }
                         // REVISIT: what should happen in this case?
-                        return null; 
+                        return null;
                     }
                     catch (org.apache.xerces.util.URI.MalformedURIException ex) {
                         return null;
@@ -226,15 +225,15 @@ public class ElementImpl
             }
         }
 
-        // 2.the base URI of the element's parent element within the 
-        // document or external entity, if one exists 
-        // 3. the base URI of the document entity or external entity 
+        // 2.the base URI of the element's parent element within the
+        // document or external entity, if one exists
+        // 3. the base URI of the document entity or external entity
         // containing the element
 
         // ownerNode serves as a parent or as document
         return (this.ownerNode != null) ? this.ownerNode.getBaseURI() : null;
     } //getBaseURI
-    
+
     /**
      * NON-DOM
      * Returns the xml:base attribute.
@@ -694,7 +693,7 @@ public class ElementImpl
                 //      elem.setAttributeNS(null, "name", "value");
                 // This case is not defined by the DOM spec, we choose
                 // to create a new attribute in this case and remove an old one from the tree
-                // note this might cause events to be propagated or user data to be lost 
+                // note this might cause events to be propagated or user data to be lost
                 newAttr = ((CoreDocumentImpl)getOwnerDocument()).createAttributeNS(namespaceURI, qualifiedName, localName);
                 attributes.setNamedItemNS(newAttr);
             }
@@ -972,14 +971,14 @@ public class ElementImpl
             synchronizeData();
         }
         Attr at = getAttributeNode(name);
-		
+
 		if( at == null){
        		String msg = DOMMessageFormatter.formatMessage(
-									DOMMessageFormatter.DOM_DOMAIN, 
+									DOMMessageFormatter.DOM_DOMAIN,
 									"NOT_FOUND_ERR", null);
             throw new DOMException(DOMException.NOT_FOUND_ERR, msg);
 		}
-        
+
 		if (ownerDocument.errorChecking) {
             if (isReadOnly()) {
                 String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -1012,14 +1011,14 @@ public class ElementImpl
             synchronizeData();
         }
         Attr at = getAttributeNodeNS(namespaceURI, localName);
-		
+
 		if( at == null){
        		String msg = DOMMessageFormatter.formatMessage(
-									DOMMessageFormatter.DOM_DOMAIN, 
+									DOMMessageFormatter.DOM_DOMAIN,
 									"NOT_FOUND_ERR", null);
             throw new DOMException(DOMException.NOT_FOUND_ERR, msg);
 		}
-       
+
 		if (ownerDocument.errorChecking) {
             if (isReadOnly()) {
                 String msg = DOMMessageFormatter.formatMessage(DOMMessageFormatter.DOM_DOMAIN, "NO_MODIFICATION_ALLOWED_ERR", null);
@@ -1060,21 +1059,21 @@ public class ElementImpl
      * Introduced in DOM Level 3. <p>
      * Checks if a type is derived from another by restriction. See:
      * http://www.w3.org/TR/DOM-Level-3-Core/core.html#TypeInfo-isDerivedFrom
-     * 
-     * @param typeNamespaceArg 
+     *
+     * @param typeNamespaceArg
      *        The namspace of the ancestor type declaration
      * @param typeNameArg
      *        The name of the ancestor type declaration
      * @param derivationMethod
      *        The derivation method
-     * 
+     *
      * @return boolean True if the type is derived by restriciton for the
      *         reference type
      */
-    public boolean isDerivedFrom(String typeNamespaceArg, 
-                                 String typeNameArg, 
+    public boolean isDerivedFrom(String typeNamespaceArg,
+                                 String typeNameArg,
                                  int derivationMethod) {
-                                 	
+
         return false;
     }
 
@@ -1175,7 +1174,7 @@ public class ElementImpl
         return (NamedNodeMapImpl) eldef.getAttributes();
 
     } // getDefaultAttributes()
-    
+
     //
     // ElementTraversal methods
     //
@@ -1259,7 +1258,7 @@ public class ElementImpl
         }
         return null;
     } // getNextElementSibling():Element
-    
+
     /**
      * @see <a href="http://www.w3.org/TR/2008/REC-ElementTraversal-20081222/#attribute-previousElementSibling">
      * Element Traversal Specification</a>
@@ -1281,8 +1280,8 @@ public class ElementImpl
         }
         return null;
     } // getPreviousElementSibling():Element
-    
-    // Returns the first element node found from a 
+
+    // Returns the first element node found from a
     // non-recursive in order traversal of the given node.
     private Element getFirstElementChild(Node n) {
         final Node top = n;
@@ -1291,7 +1290,7 @@ public class ElementImpl
                 return (Element) n;
             }
             Node next = n.getFirstChild();
-            while (next == null) {         
+            while (next == null) {
                 if (top == n) {
                     break;
                 }
@@ -1307,8 +1306,8 @@ public class ElementImpl
         }
         return null;
     } // getFirstElementChild(Node):Element
-    
-    // Returns the first element node found from a 
+
+    // Returns the first element node found from a
     // non-recursive reverse order traversal of the given node.
     private Element getLastElementChild(Node n) {
         final Node top = n;
@@ -1317,7 +1316,7 @@ public class ElementImpl
                 return (Element) n;
             }
             Node next = n.getLastChild();
-            while (next == null) {         
+            while (next == null) {
                 if (top == n) {
                     break;
                 }
@@ -1333,12 +1332,12 @@ public class ElementImpl
         }
         return null;
     } // getLastElementChild(Node):Element
-    
+
     // Returns the next logical sibling with respect to the given node.
     private Node getNextLogicalSibling(Node n) {
         Node next = n.getNextSibling();
-        // If "n" has no following sibling and its parent is an entity reference node we 
-        // need to continue the search through the following siblings of the entity 
+        // If "n" has no following sibling and its parent is an entity reference node we
+        // need to continue the search through the following siblings of the entity
         // reference as these are logically siblings of the given node.
         if (next == null) {
             Node parent = n.getParentNode();
@@ -1352,12 +1351,12 @@ public class ElementImpl
         }
         return next;
     } // getNextLogicalSibling(Node):Node
-    
+
     // Returns the previous logical sibling with respect to the given node.
     private Node getPreviousLogicalSibling(Node n) {
         Node prev = n.getPreviousSibling();
-        // If "n" has no previous sibling and its parent is an entity reference node we 
-        // need to continue the search through the previous siblings of the entity 
+        // If "n" has no previous sibling and its parent is an entity reference node we
+        // need to continue the search through the previous siblings of the entity
         // reference as these are logically siblings of the given node.
         if (prev == null) {
             Node parent = n.getParentNode();
